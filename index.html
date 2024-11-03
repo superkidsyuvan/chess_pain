@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>chess</title>
+        <style>
+            #mainGame{
+                width: 500px;
+                height: 500px;
+                background-color: black;
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <img hidden id="Bpawn" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAmJJREFUWEfVls+OEkEQxr/pmWFh4eLJJ/A13D8m3HwD4qIS9aLc1BBZBSRI0BeQdXcVTDh7FSTxMXwETyaE7M4M02V6dDYBZ5iu2ZCNfSJ0ddWvv/6qpw1c8TCuuD5SAdi2Tb7vL7Hn83nMZjN2PvYCIQSRAdTrdSgI0zQDkHe9t5jP5+onKycrOJvN0lYui2q1erH7ZrMJAQMvDuvodt7A8zySUgrdo2UBqN2rQlHjdbOFw1cv0Wg0QL7UzqsdqIomASi4TqcDz3G182oHJgGEqnS7XThn59p5tQN1AAwCWq0WpNzQESgIZcSnz5/F+oBTnN0yoQpxDrdtG47jsFRlBSsTFotFeP4imkESptPpRo+AAtmMf7kNUwAymN4ogGpFdd1tR0lARL+I6JruJZTKA6EP7lXuL9U5PvrA2nm4mOWBoAu2c+SeO1gFOHrfV0dzRkSR6sSpwgZQRlwt/vfccXp8wlaBBWBZFlkZG6VSKXJDw+EQSh3OXcACyGQydKd8sNZjR/0+QPqfZG2AOOmjaDiG/D8Aer3e7Vqt9uXgblmrxUejEaqPn+y02+3vSQtYCqjXkOM4kL4PYZrKbEF+If48gNT/2VyOZUQtgEKhQKrwzd2dpA0F85OvY1iWhcVikZg/MSC8+fZu7WsVD4O+jSeg4Pm6fiQGlMvlG4PB4Mfu/l5SrqX5yXis1Y6JAKr9WJVXgqWUPwFcZ1/FQggPgPXg0UO4rpuKQZn00+lHdRQuEW1FJYlVQO28UqlA4lICBF3zeTCMvZ7XAhBdrvjFJ9cw+ACpNE+xKNGEKXKylvwGep0BMOAy1tkAAAAASUVORK5CYII=">
+        <img hidden id="Wpawn" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfRJREFUWEfVllFuwjAMhp00LSl0m/a0E+w6hSNwEJ65CM8IzrMj7GGbxliXFuLJnZgGahu7CKH1sXWdL39+O1Zw5UddeX3oBRDHMe73+yP20WgEm81GnE/8g9YaUQH43TFAlmWw3W4JSpRTFGytxUFq4e3l9Xf3KtKgQQEpYq2FqqrQe6+5RysCoN2fSn9YKIqiGkKbCHDv2XnZgbQQByCxA6hcyc7LDgwBHJSwwxRc8cXOyw7kAtBReH+hIyAIMmJRFI0eky4uLpmDCm0Oj+MYnHMiVUXBZML1et1ZYZPJ5KJHgLT6bDZrhJjP5/X7i3pAa03tbthEgIhviHjPbUK9PNBWDX0M2AvADlMsv1zd9f4+SilQShWI2KhOmyoiE4Z6QR8VRADGGDRJDMX2s3FD6WgIpM7FTJgkCTrnOj2mtAJA/pXMVqDrIjolkhzF/wGgMawsS1aJ39zdwsc7bzwTKUDTEHnA0+Dxc+vVQFr/DED03qapyIgsgCzLavMtl0uWAnmegzEGdrtdMH8w4FD7oUvolGw8HgPW42v3EwyYTqePi8XiabVahXIdfc/HOascgwBUfqKVT4K9988A8CBuxVrrCgBM2xTMhaKegIglIg6a/mlVQNJ4QjBdjakTAPEs9X+56KZsux+CHgjt7tzvVwf4BmWg5yHWSANPAAAAAElFTkSuQmCC">
+        <img hidden id="Brook" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAeJJREFUWEftl9tOwkAQhqfbA5Rw45Vvo4AJT0HkYN8DeQ1BRMMF72CR9/HKeIgW2h2zhSVY2u6sShoTuSFpZme+/5+ZpRhQ8McouD5QATABKs5Rn+VqJAP0L/txosHlQHzFAMRn/wAHcSBOmmhB2jNli5UBG/xtv6lbszMrv+tAUQCibrx20vYskI1yuSlKXmoLdhMl9z9ZRCunVjBjDJvNJqyiMF0ZR1gsFsA5J+clB8phjL019o8ZJgPga3MOCQCMsTcAqKRZgIhPiHikbPxOgK4D8VHRip538aXOeHStpVwe1gYoV1xcfgSQBBhdDUVr3hEx1Z0sV7QB0tRv+g6T8Y22C1oAlmWh5djQarVSBU2nUxDuHGwIHcfB8047d8ZGw6G4ssjCyIFZ1qfR6Azk3wGwbRvb3Q5pxWezGbw+v5DEkYLk7pfcMgRBADyKgJmmGDZ5L6xvwCiCsutqDSIJoFqtoih8UjslOTC/98GyLAjDUJlfGSDV188apOIy6MGfAyIq8ysDRELTNLHWqGsBzH2ftI5KALF+WpUTwZzzRwA41r6KGWMrALA6ve6364shvZvcilYsEbGUlijTAaHc8zzge3+A9HnyLqZcAMQfub8lFS8wWb8PyhnQ16t3onCAT2Cf5CEdNryLAAAAAElFTkSuQmCC">
+        <img hidden id="Wrook" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAbFJREFUWEftlttOwzAMhp007dYxQFzxVu1edNq0x+IKAWO0LDFyt6ASpbUDTBUSvanUOvbn34dWwcSXmjg+SAEwAKVz0mejOYoBEE/xlOqOdADCZ/8AF1GgcxqUIPaMLTFrcMb/rLd0anq98rsKTAXQKd6XfQjknLmfFJZXWoK+o3D+wyBJPpOMtda43W5Hs1qtVuCcE/sVG/pmpPtut4tCUHC6LgkAWus9ACxiBIj4iIh3bOF7BqkKdEepFNbaL3GyLEvK3B9OBpgvSmzfGggBqPuVUgdEjKozODUpcg1l7318R4UkBYwxaIocDvvXKHd5tQBS52JNWBQFNk0zvlq1opUlTkxsGGu8IZKUUvwdgDzPsW1bUc9e397Ay9OzKDmRke/+WTkH6gFnLejT3Pu9cNqA1sK8LJMaUQSwXC675luv1yIFqqoCYwwcj0fWP2vgs+c+QiFZXdf0x8T6Zw3IcZZluNlsRNl7o6quROPIAtD4JUUOjJ1zDwBwn7yKtdbvAGDCnZ8KQzsBEVtEnMXODiqQsng4qLHFNArgf7u5ANx7+lIOfR/YHuCc//T95AAf4XbYIQiH/oAAAAAASUVORK5CYII=">
+        <img hidden id="Bknight" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAghJREFUWEe9VluSEjEUPR2aZ/E/mxBwBb5QVkEJw7QuStBSiw/2IMgWdJYxnzNjlTCQO3VjhYptupNAMD9Q5HLOuec+uhPEOWTAJCGQQcEFwIq8/+Y1Vt+W/DUIMyjYIoCYWJ//KeBguUWAqdOZoDMgl/WBOHv/DrMPU3Vt2I/u05767frHT69y+ApQxExqO1qIJo8poJTYFJMXEcMBK7kmsjnCd7FKQEV2l814LAFHkbOwaALMLEOciCYgT8rALiGxm9Dc7XqenaN4jjG09Zy1R0z7Y+4Bq4CySYg1hlYOIQQNBgM87Hd2DZKwXq/xpNuJvoo1oeqDJPl3gycVAcg/rXNOARBC/ALQslnAxPrEWMWFpeZSTLKrv+4/zT6qzI0GjPo0PJA1Wk3a/t4gL4CngEvT6XW96++l0EwzTVNKa1UMh0OrO/P5HCxOSun7mA97f6vVavR2PCqbQsymU4D8cb2VVqtVGl2OS8n15WKxwP3tnRe2VxADc+PVmw1sNhvI/R6iUmGrFacQQn3y741mM6gMXgLa7TYx8bMXz70c4LfjNE2x2+2c+M4Anf3L/isvch30fbkCETnxnQFsfRBzLlhKeQPgogijUIAQ4gFAOp5cHs3PPfL18xd2YktEdRtQmQDKsgwSJxmgOHlLFu2GUgFEp5OrbZck4QKO9j3wj84mDMQLDn8Ej8zlIW0VHKEAAAAASUVORK5CYII=" alt="Bknight">
+        <img hidden id="Wknight" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAe9JREFUWEfFlt1SwjAQhTcptirqpY/FMMPrcAk8D/BWXqpIoU03mqVh0t9sgqO5YYZudr+ent1EQPjSzhYRvr25IyaB3u/3MJvNbKaYHFeKmM0EYFcNEpOHUnA3urJDD0C0GmyA5XJJRVarFf26n0FrDUI0UnHz8hWwAC6EKdy3HBgviDegLqDbCgwVd4E4IFEA7eKu/CPPemv9CgBnFtSQnXp/BkAtdzFqlFsbHuB8/2tfNrvjdwBMFh+EedsBP9ymgG1DZgu2+/R2D4wBDBltzKRRJvS4npsz7Cwwg2iz2cB2ux2tP5/PARHZENxA6gIDQEsK0BV2QBxfcPPGnQVXkK4WR0SccgZT6PFJbrbngQGoqqpRJ0mSIOlDAaj1DcB6vab+brehAUjvMzgdc7b8nankk05KqU2R/OvYG/owfQRVlKCUYkOwA+ue0Rr77wCWKMsyKIqCnZcd+PTyrD/fP3wi0fM0TaEsS1ZuVhB1Xi3/Kc9BJgkVQry0opQSsKrof6PAOT+xDckCmEwmWinVuIyOSbFYLAjkcDh483sDyKlC6N1ux5LfBnEnog/gTUr5GlS5Fewby4MAQoizECJtD5xQGDMffmaYQsS7vr2DAMZ0txa3Bcem5CiA79bDVcPcE4Y+hc8D3BrRcf8O8A1acechdCYjcgAAAABJRU5ErkJggg==" alt="Wknight">
+        <img hidden id="Bbishop" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAdxJREFUWEfdlttOwkAQhqdLWyjh3rfxhPIURA5WH0rQqOGCdxDkfbz0kFhod8wAS0rttjtLwMTeEWbm/+bYOmD/YMbVsQll5QQA2Ly82NKbvkzoNzse2yGluoGwFbciXgNky6+42AmxHaj8pBbe3my1YHg3sILgAuSKK+U1BCsmx5gjTrZGsY2MdGXXZI7UHtNqGANke54egJTYUpyegwIowTTkwQGyV/D/AeTtvu72c26C6RAqLZNVZF1YLgAF153h/V9CIQS2Wi1YJHF+9SXCbDYDKaVxYsaG6ZeQ4/x2cyoCQK6Ks08AEEJ8AUA9rwQcYat+KSdqRT+83mJ4GN6zMrcGqNUDnH9HkAWg1aPWICKrrSxj13XR9T1ot9u5QzgajYDgOK1gAfi+j1fdju7+rF5CgwEtqnFcY0PP87DT6xaKqz/H4zF8vn8YxTYyosA0eNWgBlEUgUwSEJUKlXqpKYRYrV+SQC0IWG0wAmg0GkjCx6cnRhWgr2TXdSGO49L4pQYq+7PmuZG4MnqdTI02ohSASs9SzhhLKd8A4EgXQwsghFgAgNvt96z1aUaeH5+oEnNErOYFKgLAMAxBlr78yvmKrmQhAOJO1d+Q0YXUHafSGSjPbzeLPwf4AZREwyHXewabAAAAAElFTkSuQmCC">
+        <img hidden id="Wbishop" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAb9JREFUWEfdVttugkAQHYYFxdr62L9Sf9TE+Fl9bGtbqOw0Ay7BDcvObHpJasKD4ew5Z65LBuk/8o5mKVRJhwCATqfTjd52u+X/aj71gZHqYCJVPMnx1YCffudLHZD6AKef1YhuPWTZQKXiVIFD4kP4vQkVpwY8GXlAnLEibhFIGTlxea4lifJHAa7p/JqPZ3Ak1ol3dRCW41sMOMGxyV834G/B/2dgavZDu1+zE6Q94LQko6jaBVoDXSIit56KUwVGRDoej7P6+/0erLViXjFwfAmNajyYyXIEsH1yftIAIOIZAFZTadAIJ1+ffJBL0bbtjYc8z1WRJxtYripqPmrwDXBZ+CEiVVlVYGMMmbKA9/PbZCNWdytgc5pSqAyUZUl1Xc9OQYYZD6qYVwwsioKapomsgP71/eYBXp9fRNwikGu8RbUEzoBtW8C+6TpBROzHr21hWVWqMogMrNfrLvWHw0GUAf5KNsbA5XKJ8kcBLvrYBvSd7XY70UREDfDMi8IOgKy1TwDwGLw5Qy8Q8RMAjD/vWjO8oIioIaLF1NlgBqa2nVbc4ee25KyBuQ9RjRnekKHlFO0BjVAK9s8NfAGxI7khoYnUBQAAAABJRU5ErkJggg==">
+        <img hidden id="Bqueen" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfFJREFUWEftlklSwlAQhjuPEIZi7y3UEzihnIIS0OihBC21WHAHQa6gHsOlQ5UB8trqkFgBkrzuoMXG7EL+9P/19IIF+S5Mec2ShhO/AAC4vbuT6PPy9Ey/i2KKxDHXFYg85mJayp5ZYnZibGFojPWT40yG0cNQlBgXIMg8MieTOEhouvA8pDTGNwqo7O7lBfSuuoEBmSXdk2GSxjSUbIDIgMyjiwzj98saev4bABQkqILk4pgb6eJr9w+w8QpQO7gQYf9ZLeZsQXz2gvMgDURiHAWVAgQbYdgGUUyRWCmFjUYDpv4smUEjjMdj0Fqz47KF0bcgaKy1+ppVUAB6Xpy/BACl1CcAVJNKIDFeZwYIAs/c8wWGm961KPPcAOVqBSdfHiwD0AZQaxBR1FaR2LZttJ0iNJvNxCHs9/tAcJJWiAAcx8HTditzC3vdLi0qOy5bWCwWsdVpsz6Ig8EAPt7eWbFZInKlwStVyuB5HmjfB1UoUKkDIKXUfP18H8qViqgNLIBarYZkvHewz6oA/WuybRtms5kxvlEQZX9YP2KZR6LH4Yi1EUYAKr3IeUmstX4FgK20GKkASqkpANjts05uf5qR+9s7qsQEEUtJgbIA0HVd0MaPn5kv65TMBEBcq/o/ZHRCph1Oxhkw57eeYuMA3/5B2CGmAVrjAAAAAElFTkSuQmCC">
+        <img hidden id="Wqueen" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAc1JREFUWEftlsFygkAMhrNhQbG2Pfat1Afy6Os44/hYPba1FiqbTpDtILJsQtvxUm7Av/m/ZJMFA+MuCiwz2nDqBQBA6/W612ez2fBzVUyVuOV6BTHGXE3L2QtLLE5MLGyMab/fDzIsFgtVYlKAOnNvziZtkMb04n1DGY0fFXDZiQiMMbUBm/Xd12n3aGJNKQbwBmzuLzZs33c1/P43ADhIXQXNJTGP0rXH7h/g5hVoGkHUBs3+i7ZYMgVt07oTQ9XQGH9PkiilS1FsHFRJqcSISLvdbpB5tVqBc04cVyz03wJ/2HQpTIIA7lycvwQARDwAwKyvDBrjn/QAQ1BVVRcMSZKoMh8NMJ3lVH4U0AXgCWi+DaptVYmttWSzFI6H995GzO9mwHCarVABZFlGRVEMToFBw/9N4rhiYZqmVJal6Ni4f3yAt5dXUWyRiF258Sb5FLgCrqoAz01XAyHiefyqCqZ5rtoGEcB8Pq9Lv91uRRXgvyZrLZxOp2j8qMBnHzsBu2TL5ZK/GdH4UQGXXpR2QOScewaAp1CMIAAifgKA7c67FoYPKCIqiWjSt3YI4Oq005p7/dApOQig/QsKltmY4OEU7YGxWUvX3RzgC2d/ziGkDA9ZAAAAAElFTkSuQmCC">
+        <img hidden id="Bking" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAeRJREFUWEfVVltSwkAQnCwhEIp/b6GewBfKKSgBjR5K0FKLD+4gyBXUY/jpo0oe2bEGWCrGJDsTyqLkN53unt6eDQ7k/2HsVScPVZ6XVsLbuztzzZen56i2iFMEXqqgEY5PvDQi4hSBjQEjvKkEjP4qiTyTGxJpAvHipfWOzcsGmvhrJ8eZZR8+DOg5m5cL5E4eN2fltwIAAIPLizwrDt2rjjWNf2GAphCnwJneGk8k980bIDPcLiynZw3I6UC0gPNtSDMiEc57Ec37YFkJ0VAisFIK6/U6TMNZsgeNMBqNQGvN5mUDox8ix/n9mlNQAHoRzl8aAKXUJwBUkiKQCK/TATKBZ8H5Dw833WvR5LkNlCs+Tr7GEDdAG0BHg4iiYxWBXddF1ytCo9FILGGv1wMyJzkKkQHP8/C01czcwm6nQ4vK5mUDi8UiNtst1lex3+/Dx9s7i5sFIlUqXskvw3g8Bh2GoAoFinpuSCm1WL8whLLvi46BZaBarSIJ7x3ssxKgf0Wu68JsNrPyWwFm+sPaEUvcgB4HQ9ZGWA1Q9CLlGFhr/QoAW2kcqQaUUlMAcFtn7dz61JH72ztKYoKIpSSiLAMYBAFo68fP7i/rlsw0gLhW+itndEOmXU7WDtjnWw+xcQPfe4G0IeBE65UAAAAASUVORK5CYII=">
+        <img hidden id="Wking" src="data:/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAbxJREFUWEfVV8tugzAQXBtDQpq2x/5VwgdxzO9EQnxWj32l0JhtbTCibsC7rqqokXLKeGZ2vLsBAfEf9I6KGKqYQ6NwWZZW83A4TLVZnCzwoIJO2K94MMLiZIGdASd8rQSc/phETOWOhJuA33hzfUfmJQNd/HVdLzb7brczv5N5qUBq5b65IH8QAACIGKcvhKVf1PgXBkwV7BQo1QfjmVzo9Q0MMZDW/VA9qUBKD0xFbTfONSVHOHYRWf1ADKyiWGApJVZVtahfFAV0XUfmJQOnf0STqEczIpEAXR/OXxqwAiaJSzFwhH/TA9aA1vqbhyRJWJVHG1hvcmzfG/ANmGsxX0RkXSsLrJRClaVwen272Ij5zQaMOc5VsAxkWYZN0yxOgZDCDCqZlwxM0xTbtiVtwtv7O3h5eiZxk0Cu81f5GkwCndYg+6ZzU9GPn9awznPWNZAMbLdbG/3xeCQlYJ6KlFJwPp+D/EGAqz60AX1n+/2eNBFBA3NLhxRFvxUfAeBhDj9rQEr58fXSo/x5pwo7nFlQiNgi4urS2SUDP7YdV3xqYm43LBqIfRj1jZoNyTYQWy33XLAJuYRc/CddzKohw/VUcwAAAABJRU5ErkJggg==" alt="Wking">
+        <canvas id="mainGame"></canvas>
+        <p id="span"></p>
+        <script>
+            var canvas = document.getElementById("mainGame");
+            var ctx = canvas.getContext("2d");
+            var alternation = false;
+            var pieces = {}//["rook" : [0,0], "pawn" : [0,1], etc..]
+            var availMove = [] //
+            var err = [] // { "ERR NAME TO BE SHOWN" 
+            var err_time = [] // FRAMES REMAINING INT} (broken up to find the length in a for loop)
+            var advancedPawn = []
+            var boardX = 0
+            var boardY = 0
+            var hoverG = false
+            var isBlackTurn = false
+            var refrainMovement = false
+            ctx.font = "10px serif";
+
+            setInterval(FRAME,34)
+
+            function Piece(type /*create, move, look, destroy*/){
+                let obj = {
+                    hover : function(bX,bY){
+                        ctx.fillStyle="#ff000077"
+                        ctx.fillRect(bX*38,bY*19,38,19);
+                    },
+
+                    createBoard : function(){
+                        for(let i = 0; i < 8; i++){
+                            Piece("create").pawn(true,i,1)
+                        }
+                        for(let i = 0; i < 8; i++){
+                            Piece("create").pawn(false,i,6)
+                        }
+                        Piece("create").rook(true,0,0)
+                        Piece("create").rook(true,7,0)
+                        Piece("create").rook(false,0,7)
+                        Piece("create").rook(false,7,7)
+
+                        Piece("create").knight(true,1,0)
+                        Piece("create").knight(true,6,0)
+                        Piece("create").knight(false,1,7)
+                        Piece("create").knight(false,6,7)
+
+                        Piece("create").bishop(true,2,0)
+                        Piece("create").bishop(true,5,0)
+                        Piece("create").bishop(false,2,7)
+                        Piece("create").bishop(false,5,7)
+
+                        Piece("create").queen(true,3,0)
+                        Piece("create").queen(false,3,7)
+
+                        Piece("create").king(true,4,0)
+                        Piece("create").king(false,4,7)
+                    },
+
+                    destroy : function(x,y){
+                        delete pieces[((Piece().findPiece(x,y,true))[1])]
+                    },
+
+                    findPieceInfo : function(uniqueName){
+                        if((!(Object.keys(pieces).length===0))){
+                            for (var [key, value] of Object.entries(pieces)) {
+                                if(key == uniqueName){
+                                    return value
+                                }
+                            }
+                        }
+                    },
+
+                    findPiece : function(x,y,requestName){
+                        if((!(Object.keys(pieces).length===0))){
+                            for (var [key, value] of Object.entries(pieces)) {
+                                if( (((pieces[key])[0]) == x) && (((pieces[key])[1]) == y)){
+                                    if(requestName==true){
+                                        return [true,key]
+                                    }else{
+                                        return true
+                                    }
+                                }
+                            }
+                        }
+                        if(requestName==true){
+                            return [false,null]
+                        }else{
+                            return false
+                        }
+                    },
+
+                    king : function(isBlack,x,y,newX,newY){
+                        if(type=="create"){
+                            pieces[`${isBlack ? 'B' : 'W'}king ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                        }else if(type=="look"){
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+
+                            if(!(Piece().findPiece(x+1,y+1,false))){
+                                availMove.push([(x+1)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x+1,y+1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x+1,y+1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x+1)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x+1,y+1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x+1)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x+1,y,false))){
+                                availMove.push([(x+1)*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x+1,y,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x+1,y,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x+1)*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x+1,y,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x+1)*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x+1,y-1,false))){
+                                availMove.push([(x+1)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x+1,y-1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x+1,y-1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x+1)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x+1,y-1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x+1)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x,y-1,false))){
+                                availMove.push([x*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x,y-1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x,y-1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([x*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x,y-1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([x*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x-1,y-1,false))){
+                                availMove.push([(x-1)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x-1,y-1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x-1,y-1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x-1)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x-1,y-1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x-1)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+                            
+                            if(!(Piece().findPiece(x-1,y,false))){
+                                availMove.push([(x-1)*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x-1,y,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x-1,y,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x-1)*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x-1,y,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x-1)*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x-1,y+1,false))){
+                                availMove.push([(x-1)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x-1,y+1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x-1,y+1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x-1)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x-1,y+1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x-1)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x,y+1,false))){
+                                availMove.push([x*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x,y+1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x,y+1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([x*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x,y+1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([x*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+                            
+                        }else if(type=="move"){
+                            console.log(isBlack,x,y,newX,newY)
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+                            if((Piece().findPiece(newX,newY,false))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(newX,newY,true))[1]).toString())){
+                                        delete pieces[key]
+                                        break
+                                    }
+                                }
+                            }
+                            if((!(Object.keys(pieces).length===0))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(x,y,true))[1]).toString())){
+                                        value[0]=newX
+                                        value[1]=newY
+                                        value[2]=false
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    queen : function(isBlack,x,y,newX,newY){
+                        if(type=="create"){
+                            pieces[`${isBlack ? 'B' : 'W'}queen ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                        }else if(type=="look"){
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+
+                            var attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x+(i+1),y+(i+1),false))){
+                                    availMove.push([(x+(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x+(i+1),y+(i+1),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x+(i+1),y+(i+1),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x-(i+1),y+(i+1),false))){
+                                    availMove.push([(x-(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x-(i+1),y+(i+1),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x-(i+1),y+(i+1),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack=false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x-(i+1),y-(i+1),false))){
+                                    availMove.push([(x-(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x-(i+1),y-(i+1),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x-(i+1),y-(i+1),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack=false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x+(i+1),y-(i+1),false))){
+                                    availMove.push([(x+(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x+(i+1),y-(i+1),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x+(i+1),y-(i+1),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack=false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x+(i+1),y,false))){
+                                    availMove.push([(x+(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x+(i+1),y,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x+(i+1),y,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x-(i+1),y,false))){
+                                    availMove.push([(x-(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x-(i+1),y,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x-(i+1),y,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x,(y-(i+1)),false))){
+                                    availMove.push([x*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x,(y-(i+1)),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([x*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x,(y-(i+1)),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([x*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x,(y+(i+1)),false))){
+                                    availMove.push([x*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x,(y+(i+1)),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([x*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x,(y+(i+1)),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([x*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                        }else if(type=="move"){
+                            console.log(isBlack,x,y,newX,newY)
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+                            if((Piece().findPiece(newX,newY,false))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(newX,newY,true))[1]).toString())){
+                                        delete pieces[key]
+                                        break
+                                    }
+                                }
+                            }
+                            if((!(Object.keys(pieces).length===0))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(x,y,true))[1]).toString())){
+                                        value[0]=newX
+                                        value[1]=newY
+                                        value[2]=false
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    bishop : function(isBlack,x,y,newX,newY){
+                        if(type=="create"){
+                            pieces[`${isBlack ? 'B' : 'W'}bishop ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                        }else if(type=="look"){
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+
+                            var attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x+(i+1),y+(i+1),false))){
+                                    availMove.push([(x+(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x+(i+1),y+(i+1),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x+(i+1),y+(i+1),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x-(i+1),y+(i+1),false))){
+                                    availMove.push([(x-(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x-(i+1),y+(i+1),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x-(i+1),y+(i+1),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack=false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x-(i+1),y-(i+1),false))){
+                                    availMove.push([(x-(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x-(i+1),y-(i+1),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x-(i+1),y-(i+1),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack=false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x+(i+1),y-(i+1),false))){
+                                    availMove.push([(x+(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x+(i+1),y-(i+1),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x+(i+1),y-(i+1),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack=false
+                        }else if(type=="move"){
+                            console.log(isBlack,x,y,newX,newY)
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+                            if((Piece().findPiece(newX,newY,false))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(newX,newY,true))[1]).toString())){
+                                        delete pieces[key]
+                                        break
+                                    }
+                                }
+                            }
+                            if((!(Object.keys(pieces).length===0))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(x,y,true))[1]).toString())){
+                                        value[0]=newX
+                                        value[1]=newY
+                                        value[2]=false
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    knight : function(isBlack,x,y,newX,newY){
+                        if(type=="create"){
+                            pieces[`${isBlack ? 'B' : 'W'}knight ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                        }else if(type=="look"){
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+
+                            if(!(Piece().findPiece(x+1,y+2,false))){
+                                availMove.push([(x+1)*38,(y+2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x+1,y+2,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x+1,y+2,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x+1)*38,(y+2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x+1,y+2,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x+1)*38,(y+2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x+2,y+1,false))){
+                                availMove.push([(x+2)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x+2,y+1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x+2,y+1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x+2)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x+2,y+1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x+2)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x+2,y-1,false))){
+                                availMove.push([(x+2)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x+2,y-1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x+2,y-1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x+2)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x+2,y-1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x+2)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x+1,y-2,false))){
+                                availMove.push([(x+1)*38,(y-2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x+1,y-2,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x+1,y-2,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x+1)*38,(y-2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x+1,y-2,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x+1)*38,(y-2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x-1,y-2,false))){
+                                availMove.push([(x-1)*38,(y-2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x-1,y-2,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x-1,y-2,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x-1)*38,(y-2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x-1,y-2,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x-1)*38,(y-2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+                            
+                            if(!(Piece().findPiece(x-2,y-1,false))){
+                                availMove.push([(x-2)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x-2,y-1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x-2,y-1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x-2)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x-2,y-1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x-2)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x-2,y+1,false))){
+                                availMove.push([(x-2)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x-2,y+1,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x-2,y+1,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x-2)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x-2,y+1,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x-2)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            if(!(Piece().findPiece(x-1,y+2,false))){
+                                availMove.push([(x-1)*38,(y+2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                            }
+                            if((Piece().findPiece(x-1,y+2,false))){
+                                if(!(isBlack)){
+                                    if((((((((Piece().findPiece(x-1,y+2,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                        availMove.push([(x-1)*38,(y+2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }else{
+                                    if((((((((Piece().findPiece(x-1,y+2,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                        availMove.push([(x-1)*38,(y+2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                    }
+                                }
+                            }
+
+                            //(x+1,y+2), (x+2,y+1), (x+2,y-1), (x+1,y-2), (x-1,y-2), (x-2,y-1), (x-2,y+1), (x-1,y+2)
+                            
+                        }else if(type=="move"){
+                            console.log(isBlack,x,y,newX,newY)
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+                            if((Piece().findPiece(newX,newY,false))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(newX,newY,true))[1]).toString())){
+                                        delete pieces[key]
+                                        break
+                                    }
+                                }
+                            }
+                            if((!(Object.keys(pieces).length===0))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(x,y,true))[1]).toString())){
+                                        value[0]=newX
+                                        value[1]=newY
+                                        value[2]=false
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    rook : function(isBlack,x,y,newX,newY){
+                        if(type=="create"){
+                            pieces[`${isBlack ? 'B' : 'W'}rook ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                        }else if(type=="look"){
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+                            var attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x+(i+1),y,false))){
+                                    availMove.push([(x+(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x+(i+1),y,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x+(i+1),y,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x+(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x-(i+1),y,false))){
+                                    availMove.push([(x-(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x-(i+1),y,true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x-(i+1),y,true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([(x-(i+1))*38,y*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x,(y-(i+1)),false))){
+                                    availMove.push([x*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x,(y-(i+1)),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([x*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x,(y-(i+1)),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([x*38,(y-(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                            attack = false
+                            for(let i = 0; i < 7; i++){
+                                if(attack==true){
+                                    break
+                                }
+                                if(!(Piece().findPiece(x,(y+(i+1)),false))){
+                                    availMove.push([x*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }else{
+                                    if(attack==false){
+                                        if(!(isBlack)){
+                                            if((((((((Piece().findPiece(x,(y+(i+1)),true))[1]))).split(" "))[0]).startsWith("B")) ? true : false){
+                                                availMove.push([x*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }else{
+                                            if((((((((Piece().findPiece(x,(y+(i+1)),true))[1]))).split(" "))[0]).startsWith("W")) ? true : false){
+                                                availMove.push([x*38,(y+(i+1))*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                            }
+                                        }
+                                        attack=true
+                                    }
+                                }
+                            }
+                        }else if(type=="move"){
+                            console.log(isBlack,x,y,newX,newY)
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+                            if((Piece().findPiece(newX,newY,false))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(newX,newY,true))[1]).toString())){
+                                        delete pieces[key]
+                                        break
+                                    }
+                                }
+                            }
+                            if((!(Object.keys(pieces).length===0))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(x,y,true))[1]).toString())){
+                                        value[0]=newX
+                                        value[1]=newY
+                                        value[2]=false
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    },
+
+                    pawn : function(isBlack,x,y,newX,newY){
+                        
+                        if(type=="create"){
+                            pieces[`${isBlack ? 'B' : 'W'}pawn ${(Object.keys(pieces).length).toString()}`] = [x,y,true]
+                        }else if(type=="look"){
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+                            if(isBlack){
+                                if(!(Piece().findPiece(x,y+1,false))){
+                                    availMove.push([x*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())]);
+                                    if((!(Piece().findPiece(x,y+2,false))) && ((Piece().findPieceInfo(((Piece().findPiece(x,y,true))[1]).toString())))[2] == true ){
+                                        availMove.push([x*38,(y+2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())]);
+                                    }
+                                }
+                                if((Piece().findPiece(x-1,y+1,false)) && (((((((Piece().findPiece(x-1,y+1,true))[1])).split(" "))[0]).startsWith("W")) ? true : false)){
+                                    availMove.push([(x-1)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }
+                                if((Piece().findPiece(x+1,y+1,false)) && (((((((Piece().findPiece(x+1,y+1,true))[1])).split(" "))[0]).startsWith("W")) ? true : false)){
+                                    availMove.push([(x+1)*38,(y+1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }
+                            }else{
+                                if(!(Piece().findPiece(x,y-1,false))){
+                                    availMove.push([x*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())]);
+                                    if((!(Piece().findPiece(x,y-2,false))) && ((Piece().findPieceInfo(((Piece().findPiece(x,y,true))[1]).toString())))[2] == true ){
+                                        availMove.push([x*38,(y-2)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())]);
+                                    }
+                                }
+                                if((Piece().findPiece(x-1,y-1,false)) && (((((((Piece().findPiece(x-1,y-1,true))[1])).split(" "))[0]).startsWith("B")) ? true : false)){
+                                    availMove.push([(x-1)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }
+                                if((Piece().findPiece(x+1,y-1,false)) && (((((((Piece().findPiece(x+1,y-1,true))[1])).split(" "))[0]).startsWith("B")) ? true : false)){
+                                    availMove.push([(x+1)*38,(y-1)*19,38,19,(((Piece().findPiece(x,y,true))[1]).toString())])
+                                }
+                            }
+                        }else if(type=="move"){
+                            console.log(isBlack,x,y,newX,newY)
+                            if(availMove.length!=0){
+                                availMove = [];
+                            }
+                            if((Piece().findPiece(newX,newY,false))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(newX,newY,true))[1]).toString())){
+                                        delete pieces[key]
+                                        break
+                                    }
+                                }
+                            }
+                            if((!(Object.keys(pieces).length===0))){
+                                for (var [key, value] of Object.entries(pieces)) {
+                                    if(key == (((Piece().findPiece(x,y,true))[1]).toString())){
+                                        value[0]=newX
+                                        value[1]=newY
+                                        value[2]=false
+                                        break
+                                    }
+                                }
+                            }
+                            
+
+                            /*if(x<)
+                            for(let i = x; i < newX; i)
+                            eevee_boss_x_pos += (-eevee_boss_x_pos)/10*/
+                        }
+                    }
+                }
+                return obj
+            }
+
+            function FRAME(){
+                ctx.clearRect(0,0,500,500);
+                ctx.fillStyle = "#ffffff";
+                for(let i = 0; i < 8; i++){
+                    for(let j = 0; j < 8; j++){
+                        if((!(isEven(i))) && (!(isEven(j)))){
+                            ctx.fillRect((7-i)*38,(7-j)*19,38,19)
+                        }
+                        if((isEven(i)) && (isEven(j))){
+                            ctx.fillRect((7-i)*38,(7-j)*19,38,19)
+                        }
+                    }
+                }
+                if((!(Object.keys(pieces).length===0))){
+                    for (var [key, value] of Object.entries(pieces)) {
+                        ctx.drawImage(document.getElementById((key.split(" "))[0]),(value[0])*38,(value[1])*19,38,19)
+                    }
+                }
+                if (availMove.length != 0){
+                    ctx.fillStyle="#00ff0077"
+                    for(let i = 0; i < availMove.length; i++){
+                        ctx.fillRect(((availMove[i])[0]),((availMove[i])[1]),((availMove[i])[2]),((availMove[i])[3]));
+                    }
+                }
+
+                
+                if(advancedPawn.length!=0 && ((err.length==0) ? true : (!(err[0].endsWith("WON"))))){
+                    for(let i = 0; i < advancedPawn.length; i++){
+                        var xOffset = 0
+                        var yOffset = 0
+                        var pieceX = ((Piece().findPieceInfo(advancedPawn[i]))[0])
+                        var pieceY = ((Piece().findPieceInfo(advancedPawn[i]))[1])
+                        if(pieceX==5){
+                            xOffset = -1
+                        }
+                        if(pieceX==6){
+                            xOffset = -2
+                        }
+                        if(pieceX==7){
+                            xOffset = -3
+                        }
+                        ctx.fillStyle="#808080"
+                        if(((advancedPawn[i]).startsWith("B"))){
+                            yOffset = -1
+                        }else{
+                            yOffset = 1
+                        }
+                        ctx.fillRect((pieceX+xOffset)*38,(pieceY+yOffset)*19,152,19)
+                        ctx.drawImage(document.getElementById(`${(((advancedPawn[i]).startsWith("B")) ? 'B' : 'W')}queen`),(pieceX+xOffset)*38,(pieceY+yOffset)*19,38,19)
+                        ctx.drawImage(document.getElementById(`${(((advancedPawn[i]).startsWith("B")) ? 'B' : 'W')}bishop`),(pieceX+xOffset+1)*38,(pieceY+yOffset)*19,38,19)
+                        ctx.drawImage(document.getElementById(`${(((advancedPawn[i]).startsWith("B")) ? 'B' : 'W')}knight`),(pieceX+xOffset+2)*38,(pieceY+yOffset)*19,38,19)
+                        ctx.drawImage(document.getElementById(`${(((advancedPawn[i]).startsWith("B")) ? 'B' : 'W')}rook`),(pieceX+xOffset+3)*38,(pieceY+yOffset)*19,38,19)
+                    }
+                }
+                if(hoverG==true){
+                    Piece().hover(boardX,boardY)
+                }
+                if((err.length!=0)){
+                    for (let i = 0; i < err.length; i++) {
+                        ctx.fillStyle="#ff0000E6";
+                        ctx.fillRect(5,5+(i*25),290,20);
+                        ctx.fillStyle="#ffffff";
+                        ctx.fillText(`${err[i]}`,7,((i==0) ? 20 : (((i+1)*25)-5)));
+                        err_time[i]=(err_time[i]-1)
+                        if(err_time[i]<=0){
+                            err_time.splice(i,1)
+                            err.splice(i,1)
+                        }
+                    }
+                }
+
+                //Piece("find").findPiece(1,1,true)
+            }
+
+            function isEven(n) {
+                return (n % 2 == 0);
+            }
+
+            canvas.addEventListener("mousemove",function(e){
+                var trueX = Math.floor((translateGRID2(e.clientX,0))[0])
+                var trueY = Math.floor((translateGRID2(0,e.clientY))[1])
+                if((!(refrainMovement))){
+                    for(let i = 0; i < 8; i++){
+                        for(let j = 0; j < 8; j++){
+                            if((i*38) < trueX && trueX < ((i+1)*38)){
+                                if((j*19) < trueY && trueY < ((j+1)*19)){
+                                    boardX = i
+                                    boardY = j
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    if(advancedPawn.length!=0){
+                        for(let i = 0; i < advancedPawn.length; i++){
+                            var xOffset = 0
+                            var yOffset = 0
+                            var pieceX = ((Piece().findPieceInfo(advancedPawn[i]))[0])
+                            var pieceY = ((Piece().findPieceInfo(advancedPawn[i]))[1])
+                            if(pieceX==5){
+                                xOffset = -1
+                            }
+                            if(pieceX==6){
+                                xOffset = -2
+                            }
+                            if(pieceX==7){
+                                xOffset = -3
+                            }
+                            if(((advancedPawn[i]).startsWith("B"))){
+                                yOffset = -1
+                            }else{
+                                yOffset = 1
+                            }
+                            var inBound = false
+                            for(let i = 0; i < 8; i++){
+                                for(let j = 0; j < 8; j++){
+                                    if((i*38) < trueX && trueX < ((i+1)*38)){
+                                        if((j*19) < trueY && trueY < ((j+1)*19)){
+                                            if((pieceX+xOffset) <= i && i <= (pieceX+xOffset+3)){
+                                                if((pieceY+yOffset) == j){
+                                                    inBound = true
+                                                    boardG = true;
+                                                    boardX = i
+                                                    boardY = j
+                                                    break 
+                                                }
+                                            } 
+                                        }
+                                    }
+                                }
+                            }
+                            if(inBound){
+                                boardG=true
+                            }else{
+                                boardG=false
+                                boardX= -1
+                                boardY= -1
+                            }
+                        }
+                    }
+                }
+
+                //document.getElementById("span").innerHTML=boardX+","+boardY+"||"+trueX+","+trueY+"||"+e.clientX+","+e.clientY
+            })
+
+            canvas.addEventListener("click",function(e){
+                if((!(refrainMovement))){
+                    var dontScreamAtTheUserTheyDidNothingWrong = false
+                    if (availMove.length != 0){
+                        for(let i = 0; i < availMove.length; i++){
+                            if((((availMove[i])[0])/38)==boardX && (((availMove[i])[1])/19)==boardY){
+                                var bPiece = ((availMove[i])[4])
+                                Piece("move").pawn(((bPiece.startsWith("B")) ? true : false),((Piece().findPieceInfo(bPiece))[0]),((Piece().findPieceInfo(bPiece))[1]),(((availMove[i])[0])/38),(((availMove[i])[1])/19))
+                                isBlackTurn = (!(isBlackTurn))
+                                dontScreamAtTheUserTheyDidNothingWrong = true
+                                break
+                            }
+                        }
+                        if((!(Object.keys(pieces).length===0))){
+                            for (var [key, value] of Object.entries(pieces)) {
+                                if((((key).split(" "))[0]).endsWith("pawn")){
+                                    if((((((key).split(" "))[0]).startsWith("B")) ? true : false)){
+                                        if(value[1]==7){
+                                            advancedPawn.push(key)
+                                            refrainMovement=true
+                                            console.log("BLACK PAWN HAS REACHED PAWN PROMOTION")
+                                        }
+                                    }else{
+                                        if(value[1]==0){
+                                            advancedPawn.push(key)
+                                            refrainMovement=true
+                                            console.log("WHITE PAWN HAS REACHED PAWN PROMOTION")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        var checkWin = []
+                        if((!(Object.keys(pieces).length===0))){
+                            for (var [key, value] of Object.entries(pieces)) {
+                                checkWin.push((((key).split(" "))[0]))
+                            }
+                        }
+                        if(checkWin.includes("Bking") && (!(checkWin.includes("Wking")))){
+                            err.push("BLACK HAS WON")
+                            err_time.push(999)
+                            err.push("TERMINATING SEQUENCE...")
+                            err_time.push(50)
+                            refrainMovement=true
+                            hoverG=false
+                            setTimeout(() => {
+                                err.push("RELOAD TO RESTART GAME (im lazy lol)")
+                                err_time.push(999)
+                            }, 3500);
+                        }
+                        if(checkWin.includes("Wking") && (!(checkWin.includes("Bking")))){
+                            err.push("WHITE HAS WON")
+                            err_time.push(999)
+                            err.push("TERMINATING SEQUENCE...")
+                            err_time.push(50)
+                            refrainMovement=true
+                            hoverG=false
+                            setTimeout(() => {
+                                err.push("RELOAD TO RESTART GAME (im lazy lol)")
+                                err_time.push(999)
+                            }, 3500);
+                        }
+                    }
+                    if( (Piece().findPiece(boardX,boardY,false)) == true){
+                        var bPiece = (((((Piece().findPiece(boardX,boardY,true))[1])).split(" "))[0])
+                        if(((bPiece.startsWith("B")) ? true : false) == isBlackTurn){
+                            if(bPiece.endsWith("pawn")){
+                                Piece("look").pawn(bPiece.startsWith("B"),boardX,boardY)
+                                console.log("pawn")
+                            }
+                            if(bPiece.endsWith("rook")){
+                                Piece("look").rook(bPiece.startsWith("B"),boardX,boardY)
+                                console.log("rook")
+                            }
+                            if(bPiece.endsWith("knight")){
+                                Piece("look").knight((bPiece.startsWith("B")),boardX,boardY)
+                                console.log("knight")
+                            }
+                            if(bPiece.endsWith("bishop")){
+                                Piece("look").bishop(bPiece.startsWith("B"),boardX,boardY)
+                                console.log("bishop")
+                            }
+                            if(bPiece.endsWith("queen")){
+                                Piece("look").queen(bPiece.startsWith("B"),boardX,boardY)
+                                console.log("queen")
+                            }
+                            if(bPiece.endsWith("king")){
+                                Piece("look").king(bPiece.startsWith("B"),boardX,boardY)
+                                console.log("king")
+                            }
+                        }else{
+                            if(dontScreamAtTheUserTheyDidNothingWrong==false){
+                                err.push(`It's ${((bPiece.startsWith("B")) ? "White's" : "Black's")} Turn, cannot pick ${((bPiece.startsWith("B")) ? "Black's" : "White's")} pieces...`)
+                                err_time.push(50)
+                            }
+                        }
+                    }else{
+                        err.push("NO PIECE FOUND IN GIVEN LOCATION")
+                        err_time.push(50)
+                    }
+                }else{
+                    if(advancedPawn.length!=0){
+                        for(let i = 0; i < advancedPawn.length; i++){
+                            var xOffset = 0
+                            var yOffset = 0
+                            var pieceX = ((Piece().findPieceInfo(advancedPawn[i]))[0])
+                            var pieceY = ((Piece().findPieceInfo(advancedPawn[i]))[1])
+                            var BlackIs = advancedPawn[i].startsWith("B")
+                            if(pieceX==5){
+                                xOffset = -1
+                            }
+                            if(pieceX==6){
+                                xOffset = -2
+                            }
+                            if(pieceX==7){
+                                xOffset = -3
+                            }
+                            if(BlackIs){
+                                yOffset = -1
+                            }else{
+                                yOffset = 1
+                            }
+                            if((pieceY+yOffset) == boardY){
+                                if((pieceX+xOffset) <= boardX && boardX <= (pieceX+xOffset+1)){
+                                    advancedPawn.splice(i,1)
+                                    Piece().destroy(pieceX,pieceY);
+                                    Piece("create").queen(BlackIs,pieceX,pieceY)
+                                    refrainMovement=false
+                                    hoverG=true
+                                }
+                                if((pieceX+xOffset+1) <= boardX && boardX <= (pieceX+xOffset+2)){
+                                    advancedPawn.splice(i,1)
+                                    Piece().destroy(pieceX,pieceY);
+                                    Piece("create").bishop(BlackIs,pieceX,pieceY)
+                                    refrainMovement=false
+                                    hoverG=true
+                                }
+                                if((pieceX+xOffset+2) <= boardX && boardX <= (pieceX+xOffset+3)){
+                                    advancedPawn.splice(i,1)
+                                    Piece().destroy(pieceX,pieceY);
+                                    Piece("create").knight(BlackIs,pieceX,pieceY)
+                                    refrainMovement=false
+                                    hoverG=true
+                                }
+                                if((pieceX+xOffset+3) <= boardX && boardX <= (pieceX+xOffset+4)){
+                                    advancedPawn.splice(i,1)
+                                    Piece().destroy(pieceX,pieceY);
+                                    Piece("create").rook(BlackIs,pieceX,pieceY)
+                                    refrainMovement=false
+                                    hoverG=true
+                                }    
+                            }
+                        }
+                    }
+                }
+            })
+
+            canvas.addEventListener("mouseenter",function(e){
+                if(((!(refrainMovement)) ? true : (advancedPawn.length != 0))){
+                    hoverG = true
+                }
+            })
+
+            canvas.addEventListener("mouseout",function(e){
+                hoverG = false
+            })
+
+            
+            function translateGRID(x,y){
+                var n
+                var h
+                //if(tempINFO[36]==false){
+                    n = (x/150)*500
+                    h = (y/310)*500
+                /*}else{
+                    n = (x/150)*window.screen.height
+                    h = (y/310)*window.screen.width
+                }*/
+                return [n,h]
+            }
+
+            function translateGRID2(x,y){
+                var n  
+                var h 
+                //if(tempINFO[36]==false){
+                    n = (x/500)*310
+                    h = (y/500)*150
+                /*}else{
+                    n = (x/window.screen.height)*150
+                    h = (y/window.screen.width)*310
+                }*/
+               return [n,h]
+            }
+            
+            Piece().createBoard()
+            //Piece().destroy(0,1)
+        </script>
+    </body>
+</html>
