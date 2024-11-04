@@ -1,6 +1,6 @@
 # Chess! ♟️
 
-Chess but like in a single HTML file that has only 1293 lines of code (Very mischievous)
+Chess but like in a single HTML file that has only 1349 lines of code (Very mischievous)
 
 I DID NOT ADD THOSE SILLY MOVES LIKE CASTLING and 𝐸𝒩 𝒫𝒜𝒮𝒮𝒜𝒩𝒯 (I like pawn promotion though, so I added it, because it symbolises the working class rising up against oppression)
 

@@ -269,7 +269,21 @@
 
                     queen : function(isBlack,x,y,newX,newY){
                         if(type=="create"){
-                            pieces[`${isBlack ? 'B' : 'W'}queen ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                            if(newX==undefined || newX==null){
+                                pieces[`${isBlack ? 'B' : 'W'}queen ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                            }else{
+                                var isDuplicate = []
+                                if((!(Object.keys(pieces).length===0))){
+                                    for (var [key, value] of Object.entries(pieces)) {
+                                        isDuplicate.push(key)
+                                    }
+                                }
+                                if(isDuplicate.includes(`${isBlack ? 'B' : 'W'}queen ${(Object.keys(pieces).length).toString()}${newX}`)){
+                                    Piece("create").queen(isBlack,pieceX,pieceY,Math.floor(Math.random() * 65))
+                                }else{
+                                    pieces[`${isBlack ? 'B' : 'W'}queen ${(Object.keys(pieces).length).toString()}${newX}`] = [x,y]
+                                }
+                            }
                         }else if(type=="look"){
                             if(availMove.length!=0){
                                 availMove = [];
@@ -479,7 +493,21 @@
 
                     bishop : function(isBlack,x,y,newX,newY){
                         if(type=="create"){
-                            pieces[`${isBlack ? 'B' : 'W'}bishop ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                            if(newX==undefined || newX==null){
+                                pieces[`${isBlack ? 'B' : 'W'}bishop ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                            }else{
+                                var isDuplicate = []
+                                if((!(Object.keys(pieces).length===0))){
+                                    for (var [key, value] of Object.entries(pieces)) {
+                                        isDuplicate.push(key)
+                                    }
+                                }
+                                if(isDuplicate.includes(`${isBlack ? 'B' : 'W'}bishop ${(Object.keys(pieces).length).toString()}${newX}`)){
+                                    Piece("create").bishop(isBlack,pieceX,pieceY,Math.floor(Math.random() * 65))
+                                }else{
+                                    pieces[`${isBlack ? 'B' : 'W'}bishop ${(Object.keys(pieces).length).toString()}${newX}`] = [x,y]
+                                }
+                            }
                         }else if(type=="look"){
                             if(availMove.length!=0){
                                 availMove = [];
@@ -602,7 +630,21 @@
 
                     knight : function(isBlack,x,y,newX,newY){
                         if(type=="create"){
-                            pieces[`${isBlack ? 'B' : 'W'}knight ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                            if(newX==undefined || newX==null){
+                                pieces[`${isBlack ? 'B' : 'W'}knight ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                            }else{
+                                var isDuplicate = []
+                                if((!(Object.keys(pieces).length===0))){
+                                    for (var [key, value] of Object.entries(pieces)) {
+                                        isDuplicate.push(key)
+                                    }
+                                }
+                                if(isDuplicate.includes(`${isBlack ? 'B' : 'W'}knight ${(Object.keys(pieces).length).toString()}${newX}`)){
+                                    Piece("create").knight(isBlack,pieceX,pieceY,Math.floor(Math.random() * 65))
+                                }else{
+                                    pieces[`${isBlack ? 'B' : 'W'}knight ${(Object.keys(pieces).length).toString()}${newX}`] = [x,y]
+                                }
+                            }
                         }else if(type=="look"){
                             if(availMove.length!=0){
                                 availMove = [];
@@ -758,7 +800,21 @@
 
                     rook : function(isBlack,x,y,newX,newY){
                         if(type=="create"){
-                            pieces[`${isBlack ? 'B' : 'W'}rook ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                            if(newX==undefined || newX==null){
+                                pieces[`${isBlack ? 'B' : 'W'}rook ${(Object.keys(pieces).length).toString()}`] = [x,y]
+                            }else{
+                                var isDuplicate = []
+                                if((!(Object.keys(pieces).length===0))){
+                                    for (var [key, value] of Object.entries(pieces)) {
+                                        isDuplicate.push(key)
+                                    }
+                                }
+                                if(isDuplicate.includes(`${isBlack ? 'B' : 'W'}rook ${(Object.keys(pieces).length).toString()}${newX}`)){
+                                    Piece("create").rook(isBlack,pieceX,pieceY,Math.floor(Math.random() * 65))
+                                }else{
+                                    pieces[`${isBlack ? 'B' : 'W'}rook ${(Object.keys(pieces).length).toString()}${newX}`] = [x,y]
+                                }
+                            }
                         }else if(type=="look"){
                             if(availMove.length!=0){
                                 availMove = [];
@@ -1218,28 +1274,28 @@
                                 if((pieceX+xOffset) <= boardX && boardX <= (pieceX+xOffset+1)){
                                     advancedPawn.splice(i,1)
                                     Piece().destroy(pieceX,pieceY);
-                                    Piece("create").queen(BlackIs,pieceX,pieceY)
+                                    Piece("create").queen(BlackIs,pieceX,pieceY,Math.floor(Math.random() * 65))
                                     refrainMovement=false
                                     hoverG=true
                                 }
                                 if((pieceX+xOffset+1) <= boardX && boardX <= (pieceX+xOffset+2)){
                                     advancedPawn.splice(i,1)
                                     Piece().destroy(pieceX,pieceY);
-                                    Piece("create").bishop(BlackIs,pieceX,pieceY)
+                                    Piece("create").bishop(BlackIs,pieceX,pieceY,Math.floor(Math.random() * 65))
                                     refrainMovement=false
                                     hoverG=true
                                 }
                                 if((pieceX+xOffset+2) <= boardX && boardX <= (pieceX+xOffset+3)){
                                     advancedPawn.splice(i,1)
                                     Piece().destroy(pieceX,pieceY);
-                                    Piece("create").knight(BlackIs,pieceX,pieceY)
+                                    Piece("create").knight(BlackIs,pieceX,pieceY,Math.floor(Math.random() * 65))
                                     refrainMovement=false
                                     hoverG=true
                                 }
                                 if((pieceX+xOffset+3) <= boardX && boardX <= (pieceX+xOffset+4)){
                                     advancedPawn.splice(i,1)
                                     Piece().destroy(pieceX,pieceY);
-                                    Piece("create").rook(BlackIs,pieceX,pieceY)
+                                    Piece("create").rook(BlackIs,pieceX,pieceY,Math.floor(Math.random() * 65))
                                     refrainMovement=false
                                     hoverG=true
                                 }    
